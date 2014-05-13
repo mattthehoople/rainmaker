@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Rainmaker</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/backbone.d3-master/dist/backbone.d3.css">
+  <style>
+  .bbd3 {
+            height: 400px;
+            width: 95%;
+            margin: 20px;
+        }
+  </style>
+  <!-- Included CSS Files -->
+  </head>
+
+  <body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Rainmaker</a>
+    </div>
+    <div class="navbar-collapse collapse">
+
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Story Overview</a></li>
+        <li><a href="#burndown">Sprint Tasks</a></li>
+      </ul>
+      <div class="navbar-right" style="padding-top:8px">
+
+        <a href="login.html?logout=true" class="btn btn-success" role="button">Logout</a>
+      </div>
+    </div><!--/.navbar-collapse -->
+  </div>
+</div>
+  <div class="container" style="padding-top:50px">
+    <div id="center"></div>
+    <div id="test-bar" class="chart"></div>
+    <div id="footer"></div>
+  </div>
+	
+	
+	<script src="lib/jquery.js"></script>
+	<script src="lib/underscore-min.js"></script>
+	<script src="lib/backbone-min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.js"></script>
+	<script src="lib/backbone.d3-master/dist/backbone.d3.js"></script>
+	<script src="lib/othercookie.js"></script> 
+	<script src="js/utils.js"></script>
+
+	<script src="js/views/formview.js"></script>
+	<script src="js/views/listview.js"></script>
+	<script src="js/models/cardmodel.js"></script>
+	<script src="js/models/listmodel.js"></script>
+	<script src="js/models/actionmodel.js"></script>
+	<script src="js/models/burndownmodel.js"></script>
+
+	<script src="js/views/burndownlistview.js"></script>
+	<script src="js/views/cardstatelistview.js"></script>
+	<script src="js/views/header.js"></script>		
+	<script src="js/views/footer.js"></script>
+
+	<script src="js/main.js"></script>
+</body>
+</html>
