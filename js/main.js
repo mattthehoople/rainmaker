@@ -52,82 +52,70 @@ window.Router = Backbone.Router.extend({
     burndown: function () {
         $("#center").empty();
         var cards = new ActionCollection();
-		var sprintStartDate;
+				var sprintStartDate;
 
-		var	now = new Date().getTime(),
-			sprint = 0;
+				var	now = new Date().getTime(),
+					sprint = 0;
 
-		$.each(settings.sprintStartDays(), function (key, date){
-			if(now > date){
-				sprintStartDate = date;
-				sprint++;
-			}
-		});
+				$.each(settings.sprintStartDays(), function (key, date){
+						if(now > date){
+							sprintStartDate = date;
+							sprint++;
+						}
+				});
 
-        sprint = sprint - settings.missedSprints; 
+	    	sprint = sprint - settings.missedSprints;
 
-		var date = new Date(sprintStartDate);
+				var startDate = new Date(sprintStartDate);
 
-		$("#center").append("<h4>Sprint "+sprint+": "+date+"</h4>");
+				$("#center").append("<h4>Sprint "+sprint+": "+startDate+"</h4>");
 
-        var list = new ListModel();
+	      cards.fetch({
 
-        list.fetch({
-            success: function (data){
-                //TODO: Shouldn't need to get the list anymore since we know the sprint start date 
-                var startDateArray = list.get('name').split(" ")[2].split("/")
-                var startDate = new Date(parseInt(startDateArray[2]), parseInt(startDateArray[1])-1, parseInt(startDateArray[0]));
+	          success: function (data) {
 
-                cards.fetch({
+	              var days = [0,0,0,0,0,0,0,0,0,0];
 
-                    success: function (data) {
+	              cards.forEach(function(card){
+	                  var actionDateSplit = card.get('date').slice(0,10).split("-")
+	                  var actionDate = new Date(parseInt(actionDateSplit[0]), parseInt(actionDateSplit[1])-1, parseInt(actionDateSplit[2]));
 
-                        var days = [0,0,0,0,0,0,0,0,0,0];
+	                  if (actionDate >= startDate){
+	                      var diffDays = Math.round(Math.abs((startDate.getTime() - actionDate.getTime())/(24*60*60*1000)));
+	                      //start date is a thursday, so day differences of 3,4,10 and 11 should be ignored
+	                      if(diffDays > 0){
+	                          if(diffDays < 2){
+	                              days[diffDays]++;
+	                          }else{
+	                              if (diffDays > 4){
+	                                  if(diffDays < 10){
+	                                      days[diffDays-2]++;
+	                                  }else if( (diffDays >11) && (diffDays < 14)){
+	                                      days[diffDays-4]++;
+	                                  }
+	                              }
+	                          }
+	                      }
+	                  }
+	              });
 
-                        cards.forEach(function(card){
-                            var actionDateSplit = card.get('date').slice(0,10).split("-")
-                            var actionDate = new Date(parseInt(actionDateSplit[0]), parseInt(actionDateSplit[1])-1, parseInt(actionDateSplit[2]));
+	              var daysCollection = new Backbone.Collection();
 
-                            if (actionDate >= startDate){
-                                var diffDays = Math.round(Math.abs((startDate.getTime() - actionDate.getTime())/(24*60*60*1000)));
-                                //start date is a thursday, so day differences of 3,4,10 and 11 should be ignored
-                                if(diffDays > 0){
-                                    if(diffDays < 2){
-                                        days[diffDays]++;
-                                    }else{
-                                        if (diffDays > 4){
-                                            if(diffDays < 10){
-                                                days[diffDays-2]++;
-                                            }else if( (diffDays >11) && (diffDays < 14)){
-                                                days[diffDays-4]++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+	              for(var i=0; i<days.length;i++){
+	                  daysCollection.add([
+	                     {x: "Day "+(i+1), y: days[i]}
+	                  ]);
+	              }
 
-                        var daysCollection = new Backbone.Collection();
+	              var bar = new Backbone.D3.Bar({
+	                  collection: daysCollection
+	              });
 
-                        for(var i=0; i<days.length;i++){
-                            daysCollection.add([
-                               {x: "Day "+(i+1), y: days[i]}
-                            ]);
-                        }
+	              $("#center").append(bar.el);
+	              bar.render();
 
-                        var bar = new Backbone.D3.Bar({
-                            collection: daysCollection
-                        });
-
-                        $("#center").append(bar.el);
-                        bar.render();
-
-                    },
-                });
-            }
-
-        })
-
+	          },
+	      });
 
     }
 });
