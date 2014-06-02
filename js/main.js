@@ -1,12 +1,3 @@
-/*window.trelloUser = {
-	token : "d6be2fc615ad63bcd9050cbfbf9b8792f8ce1905f92389f8c70393ed2d5097ce",
-	key : "b8eda3c68030f4399f5fb49231051646",
-	board : "51a7310f77b391ff2300077a"
-};
-window.sprintZero = 1344470400000;
-window.sprintStartDays = [];
-sprintStartDays.push(sprintZero);*/
-
 window.Router = Backbone.Router.extend({
 
     routes: {
@@ -42,10 +33,7 @@ window.Router = Backbone.Router.extend({
         cards.fetch({
             success: function (data) {
                 $('#center').append(cardsView.render().el);
-            },
-            error: function (data) {
-                alert(data);
-            },
+            }
         });
     },
 

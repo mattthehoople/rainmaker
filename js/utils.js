@@ -23,11 +23,9 @@ window.templateLoader = {
 window.settings = {
   host : "http://localhost/rainmaker/",
 
-  //TODO: Get these from the cookie instead
-
   trelloUser : {
-    token : "b9c914238359cf75151c12d038e0d29e4381bf810ebdd6b24bee9d77e3d88fd8",
-    key : "b8eda3c68030f4399f5fb49231051646"
+    token : Cookie.get('token'),
+    key : Cookie.get('key')
   },
 
   sprintZero : 1344470400000,
@@ -36,11 +34,6 @@ window.settings = {
 
   //Your main sprint board
   board : "51a7310f77b391ff2300077a",
-
-  //Get the first list on the board
-  list: function(){
-    return "52779901cc107e0d7c0008d7";
-  },
 
   sprintStartDays : function(){
     var days = [];

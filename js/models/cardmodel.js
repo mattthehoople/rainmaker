@@ -40,6 +40,5 @@ var CardState = Backbone.Model.extend({
 
 var CardStateCollection = Backbone.Collection.extend({
     model: CardState,
-	//TODO: get keys and stuff from settings
-    url : "https://api.trello.com/1/boards/"+settings.board+"/cards?key="+settings.trelloUser.key+"&token="+settings.trelloUser.token+"" 
+    url : "https://api.trello.com/1/boards/"+settings.board+"/cards?key="+settings.trelloUser.key+"&token="+settings.trelloUser.token
 });
