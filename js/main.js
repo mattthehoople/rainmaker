@@ -58,22 +58,23 @@ window.Router = Backbone.Router.extend({
 			sprint = 0;
 
 		$.each(settings.sprintStartDays(), function (key, date){
-
-			var startDate = date;
 			if(now > date){
 				sprintStartDate = date;
 				sprint++;
 			}
 		});
 
+        sprint = sprint - settings.missedSprints; 
+
 		var date = new Date(sprintStartDate);
 
-		$("#center").append("<h2>Sprint "+sprint+": "+date+"</h2>");
+		$("#center").append("<h4>Sprint "+sprint+": "+date+"</h4>");
 
         var list = new ListModel();
 
         list.fetch({
             success: function (data){
+                //TODO: Shouldn't need to get the list anymore since we know the sprint start date 
                 var startDateArray = list.get('name').split(" ")[2].split("/")
                 var startDate = new Date(parseInt(startDateArray[2]), parseInt(startDateArray[1])-1, parseInt(startDateArray[0]));
 
