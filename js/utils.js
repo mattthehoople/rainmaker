@@ -35,11 +35,23 @@ window.sprint = {
         sprint = sprint - settings.missedSprints;
 
         return sprint;
-      
+
     },
 
     startDate: function(){
-      
+
+        var sprintStartDate;
+
+        var	now = new Date().getTime();
+
+        $.each(settings.sprintStartDays(), function (key, date){
+            if(now > date){
+              sprintStartDate = date;
+            }
+        });
+
+        return new Date(sprintStartDate);
+
     }
 }
 
