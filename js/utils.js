@@ -20,6 +20,29 @@ window.templateLoader = {
 
 };
 
+window.sprint = {
+    sprint: function(){
+
+        var now = new Date().getTime(),
+          sprint = 0;
+
+        $.each(settings.sprintStartDays(), function (key, date){
+            if(now > date){
+              sprint++;
+            }
+        });
+
+        sprint = sprint - settings.missedSprints;
+
+        return sprint;
+      
+    },
+
+    startDate: function(){
+      
+    }
+}
+
 window.settings = {
   host : "http://localhost/rainmaker/",
 

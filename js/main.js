@@ -40,75 +40,18 @@ window.Router = Backbone.Router.extend({
     burndown: function () {
         $("#center").empty();
         var cards = new ActionCollection();
-				var sprintStartDate;
+        var completedTasks = new CompletedTasksView({collection:cards});
 
-				var	now = new Date().getTime(),
-					sprint = 0;
-
-				$.each(settings.sprintStartDays(), function (key, date){
-						if(now > date){
-							sprintStartDate = date;
-							sprint++;
-						}
-				});
-
-	    	sprint = sprint - settings.missedSprints;
-
-				var startDate = new Date(sprintStartDate);
-
-				$("#center").append("<h4>Sprint "+sprint+": "+startDate+"</h4>");
-
-	      cards.fetch({
-
-	          success: function (data) {
-
-	              var days = [0,0,0,0,0,0,0,0,0,0];
-
-	              cards.forEach(function(card){
-	                  var actionDateSplit = card.get('date').slice(0,10).split("-")
-	                  var actionDate = new Date(parseInt(actionDateSplit[0]), parseInt(actionDateSplit[1])-1, parseInt(actionDateSplit[2]));
-
-	                  if (actionDate >= startDate){
-	                      var diffDays = Math.round(Math.abs((startDate.getTime() - actionDate.getTime())/(24*60*60*1000)));
-	                      //start date is a thursday, so day differences of 3,4,10 and 11 should be ignored
-	                      if(diffDays > 0){
-	                          if(diffDays < 2){
-	                              days[diffDays]++;
-	                          }else{
-	                              if (diffDays > 4){
-	                                  if(diffDays < 10){
-	                                      days[diffDays-2]++;
-	                                  }else if( (diffDays >11) && (diffDays < 14)){
-	                                      days[diffDays-4]++;
-	                                  }
-	                              }
-	                          }
-	                      }
-	                  }
-	              });
-
-	              var daysCollection = new Backbone.Collection();
-
-	              for(var i=0; i<days.length;i++){
-	                  daysCollection.add([
-	                     {x: "Day "+(i+1), y: days[i]}
-	                  ]);
-	              }
-
-	              var bar = new Backbone.D3.Bar({
-	                  collection: daysCollection
-	              });
-
-	              $("#center").append(bar.el);
-	              bar.render();
-
-	          },
-	      });
-
+        cards.fetch({
+        success: function (data) {
+            $('#center').append(completedTasks.render().el);
+                completedTasks.draw();
+            },
+        });
     }
 });
 
-templateLoader.load(["Header", "Footer", "CardStateListView", "CardStateListItemView", "BurnDownListView", "BurnDownListItemView"],
+templateLoader.load(["Header", "Footer", "CardStateListView", "CardStateListItemView", "BurnDownListView", "BurnDownListItemView","CompletedTasksView"],
 	function () {
     	app = new Router();
     	Backbone.history.start();
