@@ -1,0 +1,22 @@
+{
+  "name": "rainmaker",
+  "version": "0.0.1",
+  "description": "Trello reporting app for Scrum",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattthehoople/rainmaker"
+  },
+  "author": "Matt Tate",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattthehoople/rainmaker/issues"
+  },
+  "homepage": "https://github.com/mattthehoople/rainmaker",
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}
