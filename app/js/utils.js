@@ -86,3 +86,10 @@ window.redirect = {
     window.location = url;
   }
 }
+
+window.cookiewrapper = {
+  
+  get: function(key){
+    return Cookie.get(key);
+  }
+}

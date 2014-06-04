@@ -6,24 +6,16 @@ window.Router = Backbone.Router.extend({
     },
 
     initialize: function () {
-        if(!Cookie.get('token')
-        || !Cookie.get('key')
-        || !Cookie.get('board')
-        || Cookie.get('token') == ""
-        || Cookie.get('key') == ""
-        || Cookie.get('board') == ""){
-            redirect.toUrl(settings.host+"/login.html");
+        if(!cookiewrapper.get('token')
+        || !cookiewrapper.get('key')
+        || !cookiewrapper.get('board')
+        || cookiewrapper.get('token') == ""
+        || cookiewrapper.get('key') == ""
+        || cookiewrapper.get('board') == ""){
+            redirect.toUrl(settings.host+"login.html");
             return false;
         }
 
-
-
-    	this.header = new Header();
-        $('#header').html(this.header.render().el);
-
-        this.footer = new Footer();
-        this.footer.render();
-		$("#footer").append(this.footer.el);
     },
 
     home: function () {

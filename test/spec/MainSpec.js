@@ -1,4 +1,4 @@
-describe("Player", function() {
+describe("Router", function() {
   // var player;
   // var song;
   var testSubject;
@@ -12,53 +12,122 @@ describe("Player", function() {
     testSubject = new Router();
   });
 
-  it("should redirect to login if cookies are not not set", function() {
+  it("should redirect to login if token cookie is not set", function() {
     spyOn(redirect, 'toUrl');
-    spyOn(Cookie, 'get').andReturn(false)
+    spyOn(cookiewrapper, 'get').and.returnValue(false);
 
     testSubject.initialize();
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'index.html');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
+
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+
   });
 
-  // describe("when song has been paused", function() {
-  //   beforeEach(function() {
-  //     player.play(song);
-  //     player.pause();
-  //   });
+  it("should redirect to login if token cookie is a blank string", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "";
+      if(key=="key") return "";
+      if(key=="board") return "";    
+    });
+    testSubject.initialize();
 
-  //   it("should indicate that the song is currently paused", function() {
-  //     expect(player.isPlaying).toBeFalsy();
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-  //     // demonstrates use of 'not' with a custom matcher
-  //     expect(player).not.toBePlaying(song);
-  //   });
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
 
-  //   it("should be possible to resume", function() {
-  //     player.resume();
-  //     expect(player.isPlaying).toBeTruthy();
-  //     expect(player.currentlyPlayingSong).toEqual(song);
-  //   });
-  // });
+  });
 
-  // // demonstrates use of spies to intercept and test method calls
-  // it("tells the current song if the user has made it a favorite", function() {
-  //   spyOn(song, 'persistFavoriteStatus');
 
-  //   player.play(song);
-  //   player.makeFavorite();
+  it("should redirect to login if key cookie is not set", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "token";
+      if(key=="key") return false;
+      if(key=="board") return "";    
+    });
+    testSubject.initialize();
 
-  //   expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-  // });
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-  // //demonstrates use of expected exceptions
-  // describe("#resume", function() {
-  //   it("should throw an exception if song is already playing", function() {
-  //     player.play(song);
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
 
-  //     expect(function() {
-  //       player.resume();
-  //     }).toThrowError("song is already playing");
-  //   });
-  // });
+  });
+
+  it("should redirect to login if key cookie is a blank string", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "token";
+      if(key=="key") return "";
+      if(key=="board") return "";    
+    });
+    testSubject.initialize();
+
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
+
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+
+  });
+
+  it("should redirect to login if board cookie is not set", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "token";
+      if(key=="key") return "key";
+      if(key=="board") return false;    
+    });
+    testSubject.initialize();
+
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('board');
+
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+
+  });
+  
+
+  it("should redirect to login if board cookie is a blank string", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "token";
+      if(key=="key") return "key";
+      if(key=="board") return "";    
+    });
+    testSubject.initialize();
+
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('board');
+
+    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+
+  });
+  
+
+  it("should not redirect if all cookies are set", function() {
+    spyOn(redirect, 'toUrl');
+    spyOn(cookiewrapper, 'get').and.callFake(function(key){
+      if(key=="token") return "token";
+      if(key=="key") return "key";
+      if(key=="board") return "board";    
+    });
+    testSubject.initialize();
+
+    expect(cookiewrapper.get).toHaveBeenCalledWith('token');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('key');
+    expect(cookiewrapper.get).toHaveBeenCalledWith('board');
+
+    expect(redirect.toUrl).not.toHaveBeenCalledWith(settings.host+'login.html');
+
+  });      
 });
