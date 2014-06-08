@@ -50,9 +50,9 @@ module.exports = function(grunt) {
       tasks: ['jshint']
     },
     jasmine: {
-      src: ['lib/*.js', 'src/**/*.js'],
+      src: ['app/lib/*.js', 'app/js/**/*.js', 'app/js/*.js'],
       options: {
-        specs: 'spec/*.js'
+        specs: 'test/spec/*.js'
       }
     },
     s3deploy: {
