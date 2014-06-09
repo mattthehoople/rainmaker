@@ -40,8 +40,7 @@ module.exports = function(grunt) {
         files: [
           {expand: true, cwd: 'app/', src: ['css/*'], dest: 'dist/', filter: 'isFile'},
           {expand: true, cwd: 'app/', src: ['lib/*'], dest: 'dist/', filter: 'isFile'},
-          {expand: true, cwd: 'app/', src: ['tpl/*'], dest: 'dist/', filter: 'isFile'},
-          //{expand: true, src: ['app/*'], dest: 'dist/', filter: 'isFile'}
+          {expand: true, cwd: 'app/', src: ['tpl/*'], dest: 'dist/', filter: 'isFile'}
         ]
       }
     },
@@ -50,28 +49,11 @@ module.exports = function(grunt) {
       tasks: ['jshint']
     },
     jasmine: {
-      src: ['app/lib/*.js', 'app/js/**/*.js', 'app/js/*.js'],
+      src: ['app/lib/jquery.js', 'app/lib/underscore-min.js', 'app/lib/backbone-min.js', 'app/lib/d3.min.js', 'app/lib/backbone.d3.min.js', 'app/lib/othercookie.js', 'app/js/**/*.js', 'app/js/main.js'],
       options: {
         specs: 'test/spec/*.js'
       }
-    },
-    s3deploy: {
-      options: {
-        key: '<%= secret.awsKey %>',
-        secret: '<%= secret.awsSecret %>',
-        bucket: '<%= secret.awsBucket %>',
-        access: 'public-read',
-        connections: 5
-      },
-        dist: {
-          files: [{
-            expand: true,
-            cwd: 'dist/',
-            src: '**/*.*',
-            dest: './'
-          }]
-        }
-      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -79,14 +61,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-awssum-deploy');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
   grunt.registerTask('test', ['jshint', 'jasmine']);
 
   grunt.registerTask('package', ['clean', 'concat', 'uglify', 'copy']);
-
-  grunt.registerTask('deploy', ['s3Deploy']);
 
 };

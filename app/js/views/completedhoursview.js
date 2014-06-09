@@ -1,42 +1,47 @@
-window.CompletedTasksView = Backbone.View.extend({
+window.CompletedHoursView = Backbone.View.extend({
 
-	bar: null,
+	line: null,
 
     render:function () {
 
+    	var startDate = sprint.startDate();
 
-        var startDate = sprint.startDate();
-
-		var days = [0,0,0,0,0,0,0,0,0,0];
+		var days = [0,0,0,0,0,0,0,0,0,0],
+		total = 0;
 
 		this.collection.each(function(card){
 			if (card.get("actionDate") >= startDate && card.get("sprintDay") > 0){
-				days[card.get("sprintDay")]++;
+				days[card.get("sprintDay")] = days[card.get("sprintDay")] + card.get("hours");
+				total = total + card.get("hours");
 			}
 		});
+
+		console.log(days);
 
 		//TODO: possibly build a days collection from the days array. Should be reusable.
 		var daysCollection = new Backbone.Collection();
 
 		for(var i=0; i<days.length;i++){
 			daysCollection.add([
-				{x: "Day "+(i+1), y: days[i]}
+				{x: (i+1), y: (total - days[i])}
 			]);
 		}
 
-		this.bar = new Backbone.D3.Bar({
+		console.log(daysCollection);
+
+		this.line = new Backbone.D3.Line({
 			collection: daysCollection
 		});
 
 		$(this.el).html(this.template());
 
-		this.$("#graph").append(this.bar.el);
+		this.$("#line").append(this.line.el);
 
         return this;
     },
 
     draw: function(){
-    	this.bar.render();
+    	this.line.render();
     }
 
 });

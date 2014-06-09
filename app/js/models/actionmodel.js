@@ -8,7 +8,7 @@ var Action = Backbone.Model.extend({
     },
 
     parse: function(response){
-    	var actionDateSplit = response.date.slice(0,10).split("-")
+    	var actionDateSplit = response.date.slice(0,10).split("-");
 		var actionDate = new Date(parseInt(actionDateSplit[0]), parseInt(actionDateSplit[1])-1, parseInt(actionDateSplit[2]));
 		var startDate = sprint.startDate();
 		var diffDays = Math.round(Math.abs((startDate.getTime() - actionDate.getTime())/(24*60*60*1000)));
@@ -18,7 +18,10 @@ var Action = Backbone.Model.extend({
 		var regExp = /\(([^)]+)\)/;
 		var matches = regExp.exec(response.data.checkItem.name);
 		if ((typeof(matches) !== 'undefined') && (matches !== null) && (matches.length > 0)){
-			setHash.hours = parseInt(matches[1]) || 0;
+			if(parseInt(matches[1]) < 50 ){
+				//In case someone adds defect numbers in (brackets)
+				setHash.hours = parseInt(matches[1]) || 0;
+			}
 		}else{
 			setHash.hours = 0;
 		}
@@ -40,7 +43,6 @@ var Action = Backbone.Model.extend({
 			//This task was completed before the sprint began
 			setHash.sprintDay = -1;
 		}
-
 	    setHash.actionDate = actionDate;
 	    return setHash;
 	}

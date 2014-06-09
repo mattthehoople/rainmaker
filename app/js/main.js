@@ -1,4 +1,4 @@
-window.Router = Backbone.Router.extend({
+var Router = Backbone.Router.extend({
 
     routes: {
         "": "home",
@@ -6,12 +6,7 @@ window.Router = Backbone.Router.extend({
     },
 
     initialize: function () {
-        if(!cookiewrapper.get('token')
-        || !cookiewrapper.get('key')
-        || !cookiewrapper.get('board')
-        || cookiewrapper.get('token') == ""
-        || cookiewrapper.get('key') == ""
-        || cookiewrapper.get('board') == ""){
+        if(!cookiewrapper.get('token') || !cookiewrapper.get('key') || !cookiewrapper.get('board') || cookiewrapper.get('token') === "" || cookiewrapper.get('key') === "" || cookiewrapper.get('board') === ""){
             redirect.toUrl(settings.host+"login.html");
             return false;
         }
@@ -33,17 +28,22 @@ window.Router = Backbone.Router.extend({
         $("#center").empty();
         var cards = new ActionCollection();
         var completedTasks = new CompletedTasksView({collection:cards});
+        var completedHours = new CompletedHoursView({collection:cards});
 
         cards.fetch({
         success: function (data) {
-            $('#center').append(completedTasks.render().el);
+                $('#center').append(completedTasks.render().el);
                 completedTasks.draw();
+
+                $('#center').append(completedHours.render().el);
+                completedHours.draw();
             },
+
         });
     }
 });
 
-templateLoader.load(["Header", "Footer", "CardStateListView", "CardStateListItemView", "BurnDownListView", "BurnDownListItemView","CompletedTasksView"],
+templateLoader.load(["Header", "Footer", "CardStateListView", "CardStateListItemView", "BurnDownListView", "BurnDownListItemView","CompletedTasksView","CompletedHoursView"],
 	function () {
     	app = new Router();
     	Backbone.history.start();

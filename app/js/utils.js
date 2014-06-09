@@ -1,5 +1,4 @@
-// The Template Loader. Used to asynchronously load templates located in separate .html files
-window.templateLoader = {
+var templateLoader = {
 
     load: function(views, callback) {
 
@@ -20,8 +19,8 @@ window.templateLoader = {
 
 };
 
-window.sprint = {
-    sprint: function(){
+var sprint = {
+    sprintNumber: function(){
 
         var now = new Date().getTime(),
           sprint = 0;
@@ -53,9 +52,9 @@ window.sprint = {
         return new Date(sprintStartDate);
 
     }
-}
+};
 
-window.settings = {
+var settings = {
   host : "http://localhost/rainmaker/app/",
 
   trelloUser : {
@@ -78,18 +77,18 @@ window.settings = {
     }
     return days;
   }
-}
+};
 
-window.redirect = {
+var redirect = {
   
   toUrl: function(url){
     window.location = url;
   }
-}
+};
 
-window.cookiewrapper = {
+var cookiewrapper = {
   
   get: function(key){
     return Cookie.get(key);
   }
-}
+};

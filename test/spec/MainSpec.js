@@ -1,12 +1,5 @@
 describe("Router", function() {
-  // var player;
-  // var song;
   var testSubject;
-
-  // beforeEach(function() {
-  //   player = new Player();
-  //   song = new Song();
-  // });
 
   beforeEach(function() {
     testSubject = new Router();
