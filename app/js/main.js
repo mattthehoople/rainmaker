@@ -43,7 +43,7 @@ var Router = Backbone.Router.extend({
     }
 });
 
-templateLoader.load(["Header", "Footer", "CardStateListView", "CardStateListItemView", "BurnDownListView", "BurnDownListItemView","CompletedTasksView","CompletedHoursView"],
+templateLoader.load(["CardStateListView", "CardStateListItemView", "CompletedTasksView", "CompletedHoursView"],
 	function () {
     	app = new Router();
     	Backbone.history.start();
