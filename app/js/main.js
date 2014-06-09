@@ -26,24 +26,37 @@ var Router = Backbone.Router.extend({
 
     burndown: function () {
         $("#center").empty();
-        var cards = new ActionCollection();
-        var completedTasks = new CompletedTasksView({collection:cards});
-        var completedHours = new CompletedHoursView({collection:cards});
+        var actions = new ActionCollection();
 
-        cards.fetch({
-        success: function (data) {
-                $('#center').append(completedTasks.render().el);
-                completedTasks.draw();
+        var completedTasks = new CompletedTasksView({collection:actions});
+        var completedHours = new CompletedHoursView({collection:actions});
+        var leaderboard = new LeaderboardView({collection:actions});
 
-                $('#center').append(completedHours.render().el);
-                completedHours.draw();
-            },
+        var checklists = new CheckListCollection();
 
+        checklists.fetch({
+            success: function (data) {
+
+              completedHours.checklists = checklists;
+
+              actions.fetch({
+                success: function (data) {
+                  $('#center').append(completedTasks.render().el);
+                  completedTasks.draw();
+
+                  $('#center').append(completedHours.render().el);
+                  completedHours.draw();
+
+                  $('#secondary').append(leaderboard.render().el);
+                },
+
+            });
+          }
         });
     }
 });
 
-templateLoader.load(["CardStateListView", "CardStateListItemView", "CompletedTasksView", "CompletedHoursView"],
+templateLoader.load(["CardStateListView", "CardStateListItemView", "CompletedTasksView", "CompletedHoursView", "LeaderboardView", "LeaderboardItemView"],
 	function () {
     	app = new Router();
     	Backbone.history.start();

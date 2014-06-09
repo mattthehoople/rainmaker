@@ -1,33 +1,52 @@
 window.CompletedHoursView = Backbone.View.extend({
 
 	line: null,
+	checklists: null,
 
     render:function () {
 
-    	var startDate = sprint.startDate();
-
-		var days = [0,0,0,0,0,0,0,0,0,0],
-		total = 0;
+    	var startDate = sprint.startDate(),
+				days = [0,0,0,0,0,0,0,0,0,0],
+				total = 0,
+				checklists = this.checklists;
+				target = this.checklists.getHours();
 
 		this.collection.each(function(card){
 			if (card.get("actionDate") >= startDate && card.get("sprintDay") > 0){
+				//this action was completed during this sprint
+				//so add it to its days total
 				days[card.get("sprintDay")] = days[card.get("sprintDay")] + card.get("hours");
-				total = total + card.get("hours");
+			}else{
+
+				//this task was completed before this sprint so we take its
+				//value off the target, but only if the card is still on the board
+				var isOnBoard = false;
+
+				checklists.each(function(checklist){
+					if( checklist.get("cardId") == card.get("cardId")){
+						isOnBoard = true;
+					}
+				});
+
+				if(isOnBoard){
+					target = target - card.get("hours");
+				}
 			}
 		});
 
-		console.log(days);
+		var values = [],
+			i = 1;
+		days.reduce(function(total, item) {
+			target = target - item;
+			values.push({x: i, y: target});
+			i++;
+		}, target);
 
-		//TODO: possibly build a days collection from the days array. Should be reusable.
-		var daysCollection = new Backbone.Collection();
 
-		for(var i=0; i<days.length;i++){
-			daysCollection.add([
-				{x: (i+1), y: (total - days[i])}
-			]);
-		}
-
-		console.log(daysCollection);
+		var daysCollection = new Backbone.Collection({
+      "values": values,
+      "color": "#BD362F"
+    });
 
 		this.line = new Backbone.D3.Line({
 			collection: daysCollection

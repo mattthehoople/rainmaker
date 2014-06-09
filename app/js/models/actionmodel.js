@@ -3,8 +3,11 @@ var Action = Backbone.Model.extend({
 	defaults: {
 		id:	null,
     	actionDate: null,
-		sprintDay: 0,
-		hours: 0
+			sprintDay: 0,
+			cardId: null,
+			teamMember: "",
+			memberName: "",
+			hours: 0
     },
 
     parse: function(response){
@@ -14,6 +17,9 @@ var Action = Backbone.Model.extend({
 		var diffDays = Math.round(Math.abs((startDate.getTime() - actionDate.getTime())/(24*60*60*1000)));
 
 		var setHash = {};
+		setHash.cardId = response.data.card.id;
+		setHash.teamMember = response.memberCreator.avatarHash;
+		setHash.memberName = response.memberCreator.fullName;
 
 		var regExp = /\(([^)]+)\)/;
 		var matches = regExp.exec(response.data.checkItem.name);

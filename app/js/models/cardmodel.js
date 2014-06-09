@@ -24,11 +24,11 @@ var CardState = Backbone.Model.extend({
 	    setHash.idList = response.idList;
 	    setHash.idMembers = response.idMembers;
 	    setHash.labels = response.labels;
-	   	setHash.url = response.url;
-	   	if ((typeof(response.badges) !== 'undefined') && (response.badges !== null)){
+	    setHash.url = response.url;
+	    if ((typeof(response.badges) !== 'undefined') && (response.badges !== null)){
 		    setHash.checkItems = response.badges.checkItems;
 		    setHash.checkItemsChecked = response.badges.checkItemsChecked;
-		}
+		  }
 	    var regExp = /\(([^)]+)\)/;
 		var matches = regExp.exec(response.name);
 		if ((typeof(matches) !== 'undefined') && (matches !== null) && (matches.length > 0)){
