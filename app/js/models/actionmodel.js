@@ -3,11 +3,12 @@ var Action = Backbone.Model.extend({
 	defaults: {
 		id:	null,
     	actionDate: null,
-			sprintDay: 0,
-			cardId: null,
-			teamMember: "",
-			memberName: "",
-			hours: 0
+		sprintDay: 0,
+		cardId: null,
+		teamMember: "",
+		memberName: "",
+		state: "",
+		hours: 0
     },
 
     parse: function(response){
@@ -20,13 +21,21 @@ var Action = Backbone.Model.extend({
 		setHash.cardId = response.data.card.id;
 		setHash.teamMember = response.memberCreator.avatarHash;
 		setHash.memberName = response.memberCreator.fullName;
+		setHash.state = response.data.checkItem.state;
 
 		var regExp = /\(([^)]+)\)/;
 		var matches = regExp.exec(response.data.checkItem.name);
 		if ((typeof(matches) !== 'undefined') && (matches !== null) && (matches.length > 0)){
 			if(parseInt(matches[1]) < 50 ){
 				//In case someone adds defect numbers in (brackets)
-				setHash.hours = parseInt(matches[1]) || 0;
+				if(setHash.state == "complete"){
+					setHash.hours = parseInt(matches[1]) || 0;
+				}else{
+					//the item has been unchecked, so hours are negative
+					setHash.hours = parseInt("-"+matches[1]) || 0;
+				}
+
+				
 			}
 		}else{
 			setHash.hours = 0;
