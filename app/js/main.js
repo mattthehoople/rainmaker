@@ -14,7 +14,7 @@ var Router = Backbone.Router.extend({
     },
 
     home: function () {
-        $("#center").empty();
+        $(".panel").empty();
         var cards = new CardStateCollection();
         var cardsView = new CardStateListView({collection:cards});
         cards.fetch({
@@ -25,7 +25,7 @@ var Router = Backbone.Router.extend({
     },
 
     burndown: function () {
-        $("#center").empty();
+        $(".panel").empty();
         var actions = new ActionCollection();
 
         var completedTasks = new CompletedTasksView({collection:actions});
