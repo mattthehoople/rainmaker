@@ -53,6 +53,22 @@ module.exports = function(grunt) {
       options: {
         specs: 'test/spec/*.js'
       }
+    },
+    sftp: {
+      test: {
+        files: {
+          "./": "dist/**"
+        },
+        options: {
+          path: '<%= secret.path %>',
+          srcBasePath: "dist/",
+          host: '<%= secret.host %>',
+          username: '<%= secret.username %>',
+          password: '<%= secret.password %>',
+          showProgress: true,
+          createDirectories: true
+        }
+      }
     }
   });
 
@@ -63,9 +79,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-ssh');
 
   grunt.registerTask('test', ['jshint', 'jasmine']);
 
   grunt.registerTask('package', ['clean', 'concat', 'uglify', 'copy']);
+
+  grunt.registerTask('deploy', ['sftp']);
 
 };

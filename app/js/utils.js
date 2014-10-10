@@ -55,7 +55,6 @@ var sprint = {
 };
 
 var settings = {
-  host : "http://localhost/rainmaker/app/",
 
   trelloUser : {
     token : Cookie.get('token'),

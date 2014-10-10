@@ -7,14 +7,15 @@ var Router = Backbone.Router.extend({
 
     initialize: function () {
         if(!cookiewrapper.get('token') || !cookiewrapper.get('key') || !cookiewrapper.get('board') || cookiewrapper.get('token') === "" || cookiewrapper.get('key') === "" || cookiewrapper.get('board') === ""){
-            redirect.toUrl(settings.host+"login.html");
+            redirect.toUrl("/login.html");
             return false;
         }
 
     },
 
     home: function () {
-        $(".panel").empty();
+        $("#center").empty();
+        $("#secondary").empty();
         var cards = new CardStateCollection();
         var cardsView = new CardStateListView({collection:cards});
         cards.fetch({
@@ -25,7 +26,8 @@ var Router = Backbone.Router.extend({
     },
 
     burndown: function () {
-        $(".panel").empty();
+        $("#center").empty();
+        $("#secondary").empty();
         var actions = new ActionCollection();
 
         var completedTasks = new CompletedTasksView({collection:actions});
