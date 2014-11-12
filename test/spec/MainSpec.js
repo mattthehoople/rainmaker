@@ -15,7 +15,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
 
@@ -32,7 +32,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
 
@@ -50,7 +50,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
 
@@ -67,7 +67,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).not.toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
 
@@ -84,7 +84,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
   
@@ -102,7 +102,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).toHaveBeenCalledWith('/login.html');
 
   });
   
@@ -120,7 +120,7 @@ describe("Router", function() {
     expect(cookiewrapper.get).toHaveBeenCalledWith('key');
     expect(cookiewrapper.get).toHaveBeenCalledWith('board');
 
-    expect(redirect.toUrl).not.toHaveBeenCalledWith(settings.host+'login.html');
+    expect(redirect.toUrl).not.toHaveBeenCalledWith('/login.html');
 
   });      
 });
